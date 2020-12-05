@@ -24,4 +24,12 @@
 		     (funcall step next-state)))))))
       (funcall step init-seqs))))
 
-
+(defun aoc20/lines-stream ()
+  (stream-cons
+   (buffer-substring-no-properties
+    (line-beginning-position)
+    (line-end-position))
+   (progn
+     (if (eq (forward-line 1) 1)
+	 nil
+       (aoc20/lines-stream)))))
