@@ -2,6 +2,17 @@
 
 (use-package stream)
 
+(defun stream-sub-vector (v offset count)
+  (letrec ((step
+            (lambda (offset count)
+              (if (> count 0)
+                  (stream-cons
+                   (aref v offset)
+                   (funcall step (+ offset 1) (- count 1)))
+                (stream-empty)
+                ))))
+    (funcall step offset count)))
+
 (defun stream-cartesian-product (init-seqs-arg)
   (let ((init-seqs (apply #'vector init-seqs-arg)))
     (letrec ((step
